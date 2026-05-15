@@ -1935,10 +1935,10 @@ section#pathway {
           </div>
           <div class="form-card-body">
             <form id="lead-form" novalidate>
-              <input type="hidden" name="_subject" value="Digital Foundation Chat Request - VitalScale Digital">
-              <input type="hidden" name="_template" value="table">
-              <input type="hidden" name="_captcha" value="false">
-              <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none">
+              <input type="hidden" name="access_key" value="76006482-aa36-40bc-bdb6-7e4537b79a3c">
+              <input type="hidden" name="subject" value="New VitalScale Digital Landing Page Enquiry">
+              <input type="hidden" name="from_name" value="VitalScale Digital Website">
+              <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none">
               <input type="hidden" name="source" value="VitalScale Digital Landing Page">
 
               <div class="form-group">
@@ -1970,7 +1970,7 @@ section#pathway {
               </div>
               <div class="form-group">
                 <label for="lf-help">Main help</label>
-                <select id="lf-help" name="main_help_needed" required>
+                <select id="lf-help" name="main_help" required>
                   <option value="" disabled selected>Select one</option>
                   <option value="website_setup">Website setup</option>
                   <option value="google_profile">Google Business Profile</option>
@@ -1981,7 +1981,7 @@ section#pathway {
               </div>
               <div class="form-group">
                 <label for="lf-contact-method">Contact method</label>
-                <select id="lf-contact-method" name="preferred_contact_method" required>
+                <select id="lf-contact-method" name="contact_method" required>
                   <option value="" disabled selected>Select one</option>
                   <option value="phone">Phone call</option>
                   <option value="email">Email</option>
@@ -2283,7 +2283,7 @@ section#pathway {
   const lfForm = document.getElementById('lead-form');
   const lfSuccess = document.getElementById('lf-success');
   const lfBtn = document.getElementById('lf-btn');
-  const lfEndpoint = 'https://formsubmit.co/ajax/ajay.singh@vitalscaledigital.com.au';
+  const lfEndpoint = 'https://api.web3forms.com/submit';
   function lfShowError(msg) {
     const existing = lfForm.querySelector('.form-error');
     if (existing) existing.remove();
@@ -2311,8 +2311,7 @@ section#pathway {
       if (!help) { lfShowError('Please select the main help you need.'); return; }
       if (!contactMethod) { lfShowError('Please select your preferred contact method.'); return; }
       const formData = new FormData(lfForm);
-      if (formData.get('_honey')) return;
-      formData.set('_captcha', 'false');
+      if (formData.get('botcheck')) return;
       formData.set('page_url', window.location.href);
       lfBtn.disabled = true;
       lfBtn.textContent = 'Sending...';
@@ -2323,7 +2322,8 @@ section#pathway {
           body: formData
         });
         const result = await res.json().catch(() => ({}));
-        if (res.ok && (result.success === true || result.success === 'true' || result.message)) {
+        if (res.ok && result.success === true) {
+          lfForm.reset();
           lfForm.style.display = 'none';
           lfSuccess.style.display = 'block';
         } else {
