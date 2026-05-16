@@ -1858,6 +1858,22 @@ section#pathway {
 
   gtag('config', 'AW-18159560536');
 </script>
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-18159560536/cq7QCNWctKwcENjOk9ND',
+      'value': 1.0,
+      'currency': 'AUD',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
 </head>
 <body class="page-offset">
 
@@ -2332,6 +2348,7 @@ section#pathway {
         });
         const result = await res.json().catch(() => ({}));
         if (res.ok && result.success === true) {
+          gtag_report_conversion();
           lfForm.reset();
           lfForm.style.display = 'none';
           lfSuccess.style.display = 'block';
